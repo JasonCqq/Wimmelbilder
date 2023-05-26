@@ -55,11 +55,13 @@ const Nav = () => {
   return (
     <nav>
       <ul>
-        <li id="navLogo">WimmelBilder</li>
+        <Link to="/" id="navLogo">
+          WimmelBilder
+        </Link>
         <Link to="/" className="leftMenu">
           Home
         </Link>
-        <li>Maps</li>
+        <Link to="/maps">Maps</Link>
         <Link to="/leaderboard">Leaderboard</Link>
         {showButtons()}
       </ul>
