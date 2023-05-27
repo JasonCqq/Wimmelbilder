@@ -1,10 +1,18 @@
+h5 {
+  color: white;
+}
+
 #header {
-  height: 55vh;
+  height: 40vh;
   text-align: center;
   display: flex;
   flex-direction: column;
   gap: 15px;
   margin-top: 5vh;
+}
+
+.features {
+  font-weight: bold;
 }
 
 #header h1 {
@@ -13,6 +21,7 @@
   color: #9b4dca;
   animation: waviy 1s infinite;
   animation-delay: calc(0.1s * var(--i));
+  font-weight: bold;
 }
 
 @keyframes waviy {
@@ -26,31 +35,11 @@
   }
 }
 
-#header button {
-  width: 25vh;
-  font-size: 2rem;
-  margin: auto;
-  font-weight: bold;
-  border: none;
-  letter-spacing: 2px;
-  transition: 0.5s;
-  transition-property: box-shadow;
-  background: #9b4dca;
-  box-shadow: 0 0 25px #9b4dca;
-}
-
-#header button:hover {
-  box-shadow: 0 0 5px #9b4dca, 0 0 25px #9b4dca, 0 0 50px #9b4dca,
-    0 0 75px #9b4dca;
-}
-
 #header u {
-  color: #9b4dca;
   font-weight: bold;
 }
 
 #maps {
-  background-color: #9b4dca;
   height: 60vh;
 }
 
@@ -63,9 +52,9 @@
 }
 
 #maps a {
-  color: white;
   text-transform: uppercase;
   font-weight: bold;
+  font-size: 1.25rem;
 }
 
 .grid-container {
@@ -73,24 +62,48 @@
   grid-template-columns: repeat(3, 1fr);
   width: 100%;
   justify-items: center;
+  color: white;
 }
 
 .map {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  background-color: rgba(255, 255, 255, 0);
+  height: 45vh;
+  border-top: 2px solid #9a4dca;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
   text-align: center;
+}
+
+.map p {
+  font-size: 1.1rem;
+  margin: 0;
+  margin-left: 1vh;
+}
+
+.map button {
+  width: 15.25vh;
+  height: 4vh;
+  margin: 0;
+  padding: 0;
+  margin-left: 1vh;
+  line-height: 0;
+}
+
+.map a {
+  margin-left: 1vh;
 }
 
 .grid-container img {
   height: 200px;
-  width: 250px;
-  box-shadow: 2px 2px 15px white;
+  width: 225px;
+  box-shadow: 1px 1px 4px rgb(0, 0, 0);
 }
 
 footer {
-  color: #9b4dca;
+  color: #9a4dca;
+  background-color: #171717;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -104,7 +117,7 @@ footer p {
 }
 
 footer a {
-  color: #9b4dca;
+  color: #9a4dca;
   font-weight: bold;
 }
 
@@ -116,5 +129,20 @@ footer a {
   .grid-container {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
+    gap: 20px;
+  }
+
+  .map {
+    height: 20vh;
+  }
+
+  .grid-container img {
+    width: 200px;
+    height: 100px;
+  }
+
+  .map button {
+    width: 5vh;
+    height: 2.5vh;
   }
 }

@@ -1,3 +1,7 @@
+* {
+  color: white;
+}
+
 .leaderboard {
   display: flex;
   flex-direction: column;
@@ -11,15 +15,21 @@ h3 {
   margin-top: 2vh;
   font-weight: bold;
   color: #9b4dca;
-  border-bottom: 1px solid #9b4dca;
+  border-bottom: 2px solid #9b4dca;
 }
 
 label {
-  color: #9b4dca;
+  color: white;
+  font-size: 1.25rem;
 }
 
 select {
   width: 25vh;
+  color: white;
+}
+
+option {
+  color: black;
 }
 
 table {

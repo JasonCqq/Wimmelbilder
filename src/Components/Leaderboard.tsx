@@ -25,7 +25,7 @@ const Leaderboard = () => {
     <div className="leaderboard">
       <h3>Leaderboard</h3>
 
-      <label htmlFor="map">Select Map</label>
+      <label htmlFor="map">Select Map Leaderboard</label>
       <select name="map" id="mapSelect">
         <option value="map1">Map #1</option>
         <option value="map2">Map #2</option>

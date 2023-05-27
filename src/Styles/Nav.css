@@ -11,7 +11,6 @@ li {
 
 nav {
   width: 100%;
-  background: white;
   height: 9vh;
 }
 
@@ -19,13 +18,13 @@ ul {
   position: fixed;
   display: flex;
   gap: 4vh;
-  border-bottom: 1px solid gray;
-  box-shadow: 1px 1px 6px gray;
   width: 100%;
   align-items: center;
   justify-content: center;
-  background: white;
+  background: #171717;
   z-index: 99;
+  border-top: 2px solid #9b4dca;
+  font-weight: bold;
 }
 
 ul li:hover {

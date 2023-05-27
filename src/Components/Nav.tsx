@@ -7,6 +7,7 @@ import {
 import React, { useEffect, useState } from "react";
 import "../Styles/Nav.css";
 import { Link } from "react-router-dom";
+import darkModeImage from "../Images/night-mode (1).png";
 
 const Nav = () => {
   const [username, setUsername] = useState("");
@@ -61,7 +62,6 @@ const Nav = () => {
         <Link to="/" className="leftMenu">
           Home
         </Link>
-        <Link to="/maps">Maps</Link>
         <Link to="/leaderboard">Leaderboard</Link>
         {showButtons()}
       </ul>
