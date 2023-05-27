@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "../Styles/Maps.css";
 import image1 from "../Images/h4cxlfdfgiz81.webp";
 import image2 from "../Images/MPiA9BqmrE56qHzJ7sufkth5iVh3xPycJvATWLx0tuE.webp";
@@ -13,15 +13,26 @@ interface MapsProps {
 }
 
 const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
+  const inGame = useContext(GameContext);
   const [image, setImage] = useState({
     name: "",
-    timer: 0,
     character1: "",
     character2: "",
     character3: "",
   });
 
-  const inGame = useContext(GameContext);
+  const [timer, setTimer] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimer((prevTimer) => prevTimer + 1);
+    }, 1000);
+
+    // Cleanup the interval when the component is unmounted
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   const displayMap = (imgLink: string) => {
     return (
@@ -40,9 +51,7 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
 
           <div className="gameStats">
             <p>
-              <strong>
-                Timer <br></br> 1:00
-              </strong>
+              <strong>Time: {timer}s</strong>
             </p>
             <span>
               <div>

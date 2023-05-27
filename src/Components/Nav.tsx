@@ -3,25 +3,37 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   signOut,
+  onAuthStateChanged,
 } from "../Firebase";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../Styles/Nav.css";
 import { Link } from "react-router-dom";
 
 const Nav = () => {
   const [username, setUsername] = useState("");
 
+  useEffect(() => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const uid = user.uid;
+        setUsername(getUserName() || "");
+      } else {
+        signOutUser();
+        setUsername("");
+      }
+    });
+  }, []);
+
   async function signIn() {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(getAuth(), provider);
-    if (isUserSignedIn()) {
-      setUsername(getUserName() || "");
-    }
   }
+
   function signOutUser() {
     signOut(getAuth());
-    setUsername("");
   }
+
   function getUserName() {
     const currentUser = getAuth().currentUser;
     if (currentUser) {

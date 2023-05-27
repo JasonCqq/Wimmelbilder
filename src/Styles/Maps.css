@@ -17,16 +17,16 @@
 
 .gameContainer {
   border: 2px solid #9a4dca;
-  background-color: #040404;
+  background-color: #151515;
   display: grid;
-  grid-template-columns: 0.9fr 0.1fr;
+  grid-template-columns: 1fr 0.3fr;
   width: 85vw;
   max-height: 85vh;
 }
 
 .gameImage {
-  width: 70vw;
-  min-height: 100%;
+  width: 100%;
+  max-height: 84vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -36,10 +36,8 @@
 .gameStats {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   text-align: center;
-  width: 12vw;
+  width: 15vw;
 }
 
 .gameStats img {
@@ -47,9 +45,13 @@
   width: 50px;
 }
 
+.gameImage img {
+  width: 80%;
+  margin: auto;
+}
+
 .magnifierImg {
-  width: 90%;
-  height: 100%;
+  width: 70%;
 }
 
 /* @media screen and (max-height: 375px) {
