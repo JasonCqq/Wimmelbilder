@@ -121,9 +121,20 @@ footer a {
   font-weight: bold;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 600px) {
+}
+
+/* @media screen and (max-width: 412px) {
+  #header {
+    max-height: 25vh;
+  }
+
+  h5 {
+    font-size: 17px;
+  }
+
   #maps {
-    height: 90vh;
+    max-height: 50vh;
   }
 
   .grid-container {
@@ -146,3 +157,21 @@ footer a {
     height: 2.5vh;
   }
 }
+
+@media screen and (max-width: 393px) {
+  h5 {
+    font-size: 15px;
+  }
+
+  #maps {
+    max-height: 65vh;
+  }
+
+  #header {
+    max-height: 50vh;
+  }
+
+  .grid-container {
+    gap: 50px;
+  }
+} */

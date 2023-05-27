@@ -4,10 +4,9 @@ import {
   GoogleAuthProvider,
   signOut,
 } from "../Firebase";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "../Styles/Nav.css";
 import { Link } from "react-router-dom";
-import darkModeImage from "../Images/night-mode (1).png";
 
 const Nav = () => {
   const [username, setUsername] = useState("");

@@ -4,6 +4,8 @@ import image1 from "../Images/h4cxlfdfgiz81.webp";
 import image2 from "../Images/MPiA9BqmrE56qHzJ7sufkth5iVh3xPycJvATWLx0tuE.webp";
 import image3 from "../Images/zcg3gaz57tc31.webp";
 import { GameContext } from "./App";
+import "react-inner-image-zoom/lib/InnerImageZoom/styles.css";
+import InnerImageZoom from "react-inner-image-zoom";
 
 interface MapsProps {
   map: string;
@@ -21,12 +23,19 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
 
   const inGame = useContext(GameContext);
 
-  const displayMap = (img: string) => {
+  const displayMap = (imgLink: string) => {
     return (
       <div className="gameOverlay">
         <div className="gameContainer">
           <div className="gameImage">
-            <img src={img}></img>
+            {/* <img src={imgLink}></img> */}
+            <InnerImageZoom
+              src={imgLink}
+              className="magnifierImg"
+              zoomScale={1.3}
+              zoomType="hover"
+              hideHint={true}
+            />
           </div>
 
           <div className="gameStats">

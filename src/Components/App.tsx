@@ -40,7 +40,7 @@ const App = () => {
           <span>
             <h5>Find the characters in each image as fast as possible!</h5>
             <h5 className="features">
-              Mobile Responsive • Leaderboard • Authentication
+              Mobile Responsive (Not Yet) • Leaderboard • Authentication
             </h5>
             <h5>
               <u>Sign In</u> to save scores and be on the leaderboard!
