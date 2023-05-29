@@ -33,13 +33,13 @@ ul {
 }
 
 ul a {
-  color: white;
+  color: #a5a5f7;
+  font-weight: bold;
 }
 
 ul a:hover {
-  color: #7c7cf1;
+  color: white;
   cursor: pointer;
-  text-decoration: underline;
 }
 
 ul .leftMenu {

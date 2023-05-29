@@ -91,13 +91,13 @@
   display: none;
   background-color: #460bf9;
   box-shadow: 2px 2px 10px #460bf9;
-  width: 50px;
+  width: 75px;
   height: 9vh;
 }
 
 .charSelect {
   font-size: 0.85rem;
-  width: 50px;
+  width: 75px;
   font-weight: bold;
   margin: 0px;
   height: 3vh;

@@ -7,10 +7,16 @@ import image3 from "../Images/zcg3gaz57tc31.webp";
 import Maps from "./Maps";
 
 //Things to Implement:
-// Mobile Responsiveness
-// Store userdata with score and display on leaderboard
+
 // Random images
-// Confirm Coordinates Click
+// Store image coordinates on firebase and validate when user selects.
+// Mark the found characters on the image
+
+// Submit scores, Guest if no log in
+// Store userdata with score and display on leaderboard
+
+// Comment better code
+// Mobile Responsiveness
 
 const GameContext = createContext<boolean>(false);
 const App = () => {

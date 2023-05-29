@@ -12,22 +12,63 @@ interface MapsProps {
 }
 
 const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
+  //game status, in game/ not in game
   const inGame = useContext(GameContext);
-  // const [image, setImage] = useState({
-  //   name: "",
-  //   character1: "",
-  //   character2: "",
-  //   character3: "",
-  // });
   const [timer, setTimer] = useState(0);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [mousePos, setMousePos] = useState({
+    x: 0,
+    y: 0,
+    popUpX: 0,
+    popUpY: 0,
+  });
+
+  const [position, setPosition] = useState([
+    //Spiderman
+    {
+      character: "Character1",
+      x: 297,
+      x2: 350,
+      y: 613,
+      y2: 706,
+    },
+    //Mario
+    {
+      character: "Character2",
+      x: 53,
+      x2: 99,
+      y: 463,
+      y2: 540,
+    },
+    //Yoshi
+    {
+      character: "Character3",
+      x: 155,
+      x2: 200,
+      y: 121,
+      y2: 187,
+    },
+  ]);
 
   //Add X/Y Coordinates to Div
   useEffect(() => {
     const gameDiv = document.querySelector(".magnifier");
-    const mouseMove = (e: any) => {
-      if (gameDiv && gameDiv.contains(e.target)) {
-        setMousePos({ x: e.clientX, y: e.clientY });
+
+    //We're going to use Screen Width / clientX?
+
+    const mouseMove = (event: any) => {
+      if (gameDiv && gameDiv.contains(event.target)) {
+        setMousePos({
+          x:
+            ((event.clientX - gameDiv.getBoundingClientRect().left) /
+              window.innerWidth) *
+            1000,
+          y:
+            ((event.clientY - gameDiv.getBoundingClientRect().top) /
+              window.innerHeight) *
+            1000,
+          popUpX: event.clientX - 5,
+          popUpY: event.clientY - 5,
+        });
       }
     };
     window.addEventListener("mousemove", mouseMove);
@@ -59,9 +100,32 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
       gamePopUp.style.display = "none";
     } else {
       gamePopUp.style.display = "block";
-      gamePopUp.style.left = mousePos.x.toString() + "px";
-      gamePopUp.style.top = mousePos.y.toString() + "px";
+      gamePopUp.style.left = mousePos.popUpX.toString() + "px";
+      gamePopUp.style.top = mousePos.popUpY.toString() + "px";
       gamePopUp.style.position = "absolute";
+      gamePopUp.style.zIndex = "99";
+    }
+  };
+
+  const popUpCharacterSelect = (e: any) => {
+    const character = e.currentTarget.innerText.split(" ").join("");
+
+    //match characters
+    for (const key of position) {
+      if (key.character !== character) {
+        continue;
+      }
+
+      if (
+        mousePos.x > key.x &&
+        mousePos.x < key.x2 &&
+        mousePos.y > key.y &&
+        mousePos.y < key.y2
+      ) {
+        console.log("FOUND");
+      } else {
+        console.log("NOT FOUND");
+      }
     }
   };
 
@@ -75,11 +139,26 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
               popUpWindow();
             }}
           >
-            {<MagnifyComponent map={imgLink} />}[{mousePos.x}, {mousePos.y}]{" "}
+            {<MagnifyComponent map={imgLink} />}[{mousePos.x}, {mousePos.y}]
             <div id="gamePopUp">
-              <p className="charSelect">Character 1</p>
-              <p className="charSelect">Character 2</p>
-              <p className="charSelect">Character 3</p>
+              <p
+                onClick={(e) => popUpCharacterSelect(e)}
+                className="charSelect"
+              >
+                Character 1
+              </p>
+              <p
+                onClick={(e) => popUpCharacterSelect(e)}
+                className="charSelect"
+              >
+                Character 2
+              </p>
+              <p
+                onClick={(e) => popUpCharacterSelect(e)}
+                className="charSelect"
+              >
+                Character 3
+              </p>
             </div>
           </div>
 
