@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import "../Styles/Maps.css";
 import image1 from "../Images/h4cxlfdfgiz81.webp";
 import image2 from "../Images/mytedpt.jpg";
@@ -14,7 +14,6 @@ interface MapsProps {
 const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
   //game status, in game/ not in game
   const inGame = useContext(GameContext);
-  const [timer, setTimer] = useState(0);
   const [mousePos, setMousePos] = useState({
     x: 0,
     y: 0,
@@ -30,6 +29,7 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
       x2: 350,
       y: 613,
       y2: 706,
+      found: false,
     },
     //Mario
     {
@@ -38,6 +38,7 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
       x2: 99,
       y: 463,
       y2: 540,
+      found: false,
     },
     //Yoshi
     {
@@ -46,15 +47,16 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
       x2: 200,
       y: 121,
       y2: 187,
+      found: false,
     },
   ]);
+  const positionFound = useRef(0);
+  const timer = useRef(0);
 
   //Add X/Y Coordinates to Div
   useEffect(() => {
     const gameDiv = document.querySelector(".magnifier");
-
-    //We're going to use Screen Width / clientX?
-
+    //Screen Width / clientX
     const mouseMove = (event: any) => {
       if (gameDiv && gameDiv.contains(event.target)) {
         setMousePos({
@@ -81,7 +83,7 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
   // Map timer
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimer((prevTimer) => prevTimer + 1);
+      timer.current = timer.current + 1;
     }, 1000);
 
     // Cleanup the interval when the component is unmounted
@@ -103,30 +105,64 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
       gamePopUp.style.left = mousePos.popUpX.toString() + "px";
       gamePopUp.style.top = mousePos.popUpY.toString() + "px";
       gamePopUp.style.position = "absolute";
-      gamePopUp.style.zIndex = "99";
+      gamePopUp.style.zIndex = "98";
     }
   };
 
   const popUpCharacterSelect = (e: any) => {
     const character = e.currentTarget.innerText.split(" ").join("");
+    const gameStatsDiv = document.querySelector(".gameStats");
 
     //match characters
     for (const key of position) {
       if (key.character !== character) {
         continue;
       }
-
       if (
         mousePos.x > key.x &&
         mousePos.x < key.x2 &&
         mousePos.y > key.y &&
         mousePos.y < key.y2
       ) {
-        console.log("FOUND");
-      } else {
-        console.log("NOT FOUND");
+        //Finds the correct div, and sets to found
+        const characterDiv = gameStatsDiv?.querySelector(
+          `.${key.character}`
+        ) as HTMLElement;
+        if (characterDiv !== undefined && characterDiv !== null) {
+          characterDiv.textContent = "✓";
+          characterDiv.style.color = "green";
+        }
+
+        positionFound.current = positionFound.current + 1;
+        setPosition((prevPosition) =>
+          prevPosition.map((pos) => {
+            if (pos.character === key.character) {
+              return { ...pos, found: true };
+            }
+            return pos;
+          })
+        );
       }
     }
+  };
+
+  const submitScoreWindow = () => {
+    const date = new Date();
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+
+    return (
+      <div id="submitScoreWindow">
+        <h1>Congratulations!</h1>
+        <p>Name: Guest</p>
+        <p>Map: {map}</p>
+        <p>
+          Score: {timer.current} Date: {month}/{day}/{year}
+        </p>
+        <button>Submit Score</button>
+      </div>
+    );
   };
 
   const displayMap = (imgLink: string) => {
@@ -139,7 +175,11 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
               popUpWindow();
             }}
           >
-            {<MagnifyComponent map={imgLink} />}[{mousePos.x}, {mousePos.y}]
+            {positionFound.current === position.length ? (
+              submitScoreWindow()
+            ) : (
+              <MagnifyComponent map={imgLink} />
+            )}
             <div id="gamePopUp">
               <p
                 onClick={(e) => popUpCharacterSelect(e)}
@@ -161,26 +201,25 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
               </p>
             </div>
           </div>
-
           <div className="gameStats">
             <p>
-              <strong>Time: {timer}s</strong>
+              <strong>Time: {timer.current}s</strong>
             </p>
             <span>
               <div>
                 <h5>Character 1</h5>
                 <img src={image1}></img>
-                <p>❌</p>
+                <p className="Character1">❌</p>
               </div>
               <div>
                 <h5>Character 2</h5>
                 <img src={image1}></img>
-                <p>❌</p>
+                <p className="Character2">❌</p>
               </div>
               <div>
                 <h5>Character 3</h5>
                 <img src={image1}></img>
-                <p>❌</p>
+                <p className="Character3">❌</p>
               </div>
             </span>
             <button
@@ -192,6 +231,9 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
             </button>
           </div>
         </div>
+        <span className="mouseCoords">
+          [X:{Math.floor(mousePos.x)}, Y:{Math.floor(mousePos.y)}]
+        </span>
       </div>
     );
   };
