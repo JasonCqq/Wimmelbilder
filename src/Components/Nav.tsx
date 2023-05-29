@@ -45,6 +45,7 @@ const Nav = () => {
     return !!getAuth().currentUser;
   }
 
+  //Sign In / Sign Out Button
   function showButtons() {
     if (isUserSignedIn() && username) {
       return (
@@ -67,9 +68,7 @@ const Nav = () => {
   return (
     <nav>
       <ul>
-        <Link to="/" id="navLogo">
-          WimmelBilder
-        </Link>
+        <h1 id="navLogo">WimmelBilder</h1>
         <Link to="/" className="leftMenu">
           Home
         </Link>

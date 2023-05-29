@@ -13,15 +13,27 @@ h5 {
 
 .features {
   font-weight: bold;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(
+    90deg,
+    #9600e1,
+    #e100a4 25%,
+    #ff504b 61%,
+    #ffb01c 97%
+  );
+  -webkit-background-clip: text;
 }
 
 #header h1 {
   text-align: center;
   text-decoration: underline;
-  color: #9b4dca;
   animation: waviy 1s infinite;
   animation-delay: calc(0.1s * var(--i));
   font-weight: bold;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(90deg, #0035fd 20%, #eb00a1);
+  -webkit-background-clip: text;
+  letter-spacing: 1px;
 }
 
 @keyframes waviy {
@@ -31,12 +43,8 @@ h5 {
     transform: translateY(0);
   }
   20% {
-    transform: translateY(-20px);
+    transform: translateY(-10px);
   }
-}
-
-#header u {
-  font-weight: bold;
 }
 
 #maps {
@@ -46,8 +54,7 @@ h5 {
 #maps h4 {
   padding-top: 3vh;
   text-align: center;
-  color: white;
-  font-weight: bold;
+  color: #a5a5f7;
   letter-spacing: 2px;
 }
 
@@ -55,13 +62,15 @@ h5 {
   text-transform: uppercase;
   font-weight: bold;
   font-size: 1.25rem;
+  color: white;
 }
 
 .grid-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  width: 100%;
+  width: 70%;
   justify-items: center;
+  margin: auto;
   color: white;
 }
 
@@ -70,7 +79,7 @@ h5 {
   flex-direction: column;
   background-color: rgba(255, 255, 255, 0);
   height: 45vh;
-  border-top: 2px solid #9a4dca;
+  border-top: 5px solid #460bf9;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   text-align: center;
@@ -89,6 +98,12 @@ h5 {
   padding: 0;
   margin-left: 1vh;
   line-height: 0;
+  background-color: #460bf9;
+  border: none;
+}
+
+.map button:hover {
+  box-shadow: 1px 1px 10px #460bf9;
 }
 
 .map a {
@@ -102,8 +117,7 @@ h5 {
 }
 
 footer {
-  color: #9a4dca;
-  background-color: #171717;
+  background-color: #05070c32;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -117,12 +131,11 @@ footer p {
 }
 
 footer a {
-  color: #9a4dca;
-  font-weight: bold;
+  color: #5959fc;
 }
 
-@media screen and (max-width: 600px) {
-}
+/* @media screen and (max-width: 600px) {
+} */
 
 /* @media screen and (max-width: 412px) {
   #header {

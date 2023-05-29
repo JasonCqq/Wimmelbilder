@@ -2,17 +2,15 @@ import React, { createContext, useEffect, useState } from "react";
 import "../Styles/App.css";
 import "firebase/firestore";
 import image1 from "../Images/h4cxlfdfgiz81.webp";
-import image2 from "../Images/MPiA9BqmrE56qHzJ7sufkth5iVh3xPycJvATWLx0tuE.webp";
+import image2 from "../Images/mytedpt.jpg";
 import image3 from "../Images/zcg3gaz57tc31.webp";
 import Maps from "./Maps";
 
 //Things to Implement:
 // Mobile Responsiveness
-// Authentication Persistence
 // Store userdata with score and display on leaderboard
-// Image Magnifier
-// Randomly generate images
-// Confirmation Click
+// Random images
+// Confirm Coordinates Click
 
 const GameContext = createContext<boolean>(false);
 const App = () => {
@@ -38,12 +36,12 @@ const App = () => {
         <header id="header">
           <h1>WimmelBilder Game</h1>
           <span>
-            <h5>Find the characters in each image as fast as possible!</h5>
             <h5 className="features">
               Mobile Responsive (Not Yet) • Leaderboard • Authentication
             </h5>
+            <h5>Find the characters in each image as fast as possible!</h5>
             <h5>
-              <u>Sign In</u> to save scores and be on the leaderboard!
+              <strong>Sign In</strong> to save scores and be on the leaderboard!
             </h5>
           </span>
         </header>
@@ -76,7 +74,7 @@ const App = () => {
                 Map #2 - Artist
               </a>
               <span>
-                <p>Difficulty: ★★★★</p>
+                <p>Difficulty: ★★</p>
                 <button onClick={() => setCurrentMap("map2")}>Play</button>
               </span>
             </div>

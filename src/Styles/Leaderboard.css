@@ -14,8 +14,10 @@ h3 {
   text-align: center;
   margin-top: 2vh;
   font-weight: bold;
-  color: #9b4dca;
-  border-bottom: 2px solid #9b4dca;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(90deg, #0035fd 20%, #eb00a1);
+  -webkit-background-clip: text;
+  border-bottom: 2px solid #0035fd;
 }
 
 label {
