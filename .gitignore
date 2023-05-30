@@ -5,4 +5,5 @@ package.json
 package-lock.json
 .eslintrc.json
 Firebase.js
-react-image-magnifiers.d.ts
+uniqid.d.ts
+firestore.rules

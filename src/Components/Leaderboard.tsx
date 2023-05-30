@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "../Styles/Leaderboard.css";
 import {
-  getAuth,
-  onAuthStateChanged,
   collection,
   getDocs,
   getFirestore,
   app,
+  getAuth,
+  onAuthStateChanged,
 } from "../Firebase";
 import uniqid from "uniqid";
 
@@ -20,9 +20,17 @@ interface LeaderboardData {
 
 const Leaderboard = () => {
   const [rows, setRows] = useState<Array<LeaderboardData>>([]);
+  const [uid, setUID] = useState("");
   const sortedRows = [...rows].sort((a, b) => a.score - b.score);
 
   useEffect(() => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUID(user.uid);
+      }
+    });
+
     async function getData() {
       const db = getFirestore(app);
       const usersCollectionRef = collection(db, "users");
@@ -30,16 +38,7 @@ const Leaderboard = () => {
 
       const newRows: Array<object> = [];
 
-      // querySnapshot.forEach(async (userDoc) => {
-      //   const scoresCollectionRef = collection(userDoc.ref, "scores");
-      //   const scoresQuerySnapshot = await getDocs(scoresCollectionRef);
-
-      //   scoresQuerySnapshot.forEach((scoreDoc) => {
-      //     const score = scoreDoc.data();
-      //     newRows.push(score);
-      //   });
-      // });
-      // setRows(newRows as LeaderboardData[]);
+      //Displaying every score. (Need to research Promises more)
       await Promise.all(
         querySnapshot.docs.map(async (userDoc) => {
           const scoresCollectionRef = collection(userDoc.ref, "scores");
@@ -81,7 +80,12 @@ const Leaderboard = () => {
         <tbody className="leaderboardData">
           {sortedRows.map((row) => {
             const uidPrefix = row.uid.slice(0, 2);
-            const modifiedName = row.name + uidPrefix;
+            let modifiedName;
+
+            uid === row.uid
+              ? (modifiedName = row.name + uidPrefix + " - (YOU)")
+              : (modifiedName = row.name + uidPrefix);
+
             return (
               <tr key={uniqid()}>
                 <td>{modifiedName}</td>

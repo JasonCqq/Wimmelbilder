@@ -6,20 +6,12 @@ import image2 from "../Images/mytedpt.jpg";
 import image3 from "../Images/zcg3gaz57tc31.webp";
 import Maps from "./Maps";
 
-//Things to Implement:
-// Display on leaderboard
-// Send player back to homescreen after submitting
-// Run timer without mouse on map
-
-// Mobile Responsiveness
-// Organize Code
-// Finishing touches.
-
 const GameContext = createContext<boolean>(false);
 const App = () => {
   const [currentMap, setCurrentMap] = useState("");
   const [inGame, setInGame] = useState(false);
 
+  //change game status to inactive
   const backButtonFunction = () => {
     setCurrentMap("");
     setInGame(false);
@@ -40,7 +32,7 @@ const App = () => {
           <h1>WimmelBilder Game</h1>
           <span>
             <h5 className="features">
-              Mobile Responsive (Soon) • Leaderboard • Authentication
+              Magnifier • Leaderboard • Authentication
             </h5>
             <h5>Find the characters in each image as fast as possible!</h5>
             <h5>

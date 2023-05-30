@@ -55,6 +55,7 @@ h5 {
   padding-top: 3vh;
   text-align: center;
   color: #a5a5f7;
+  text-shadow: 3px 3px 8px #a5a5f7;
   letter-spacing: 2px;
 }
 
@@ -63,6 +64,7 @@ h5 {
   font-weight: bold;
   font-size: 1.25rem;
   color: white;
+  text-shadow: 2px 2px 5px white;
 }
 
 .grid-container {
@@ -72,6 +74,7 @@ h5 {
   justify-items: center;
   margin: auto;
   color: white;
+  gap: 5vh;
 }
 
 .map {
@@ -79,7 +82,7 @@ h5 {
   flex-direction: column;
   background-color: rgba(255, 255, 255, 0);
   height: 45vh;
-  border-top: 5px solid #460bf9;
+  border-top: 4px solid #ff7300;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   text-align: center;
@@ -111,8 +114,8 @@ h5 {
 }
 
 .grid-container img {
-  height: 200px;
-  width: 225px;
+  height: 30vh;
+  width: 20vw;
   box-shadow: 1px 1px 4px rgb(0, 0, 0);
 }
 
@@ -133,58 +136,3 @@ footer p {
 footer a {
   color: #5959fc;
 }
-
-/* @media screen and (max-width: 600px) {
-} */
-
-/* @media screen and (max-width: 412px) {
-  #header {
-    max-height: 25vh;
-  }
-
-  h5 {
-    font-size: 17px;
-  }
-
-  #maps {
-    max-height: 50vh;
-  }
-
-  .grid-container {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    gap: 20px;
-  }
-
-  .map {
-    height: 20vh;
-  }
-
-  .grid-container img {
-    width: 200px;
-    height: 100px;
-  }
-
-  .map button {
-    width: 5vh;
-    height: 2.5vh;
-  }
-}
-
-@media screen and (max-width: 393px) {
-  h5 {
-    font-size: 15px;
-  }
-
-  #maps {
-    max-height: 65vh;
-  }
-
-  #header {
-    max-height: 50vh;
-  }
-
-  .grid-container {
-    gap: 50px;
-  }
-} */

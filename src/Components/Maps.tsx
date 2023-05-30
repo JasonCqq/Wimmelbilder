@@ -12,12 +12,8 @@ import {
   getDoc,
   getDocs,
   setDoc,
-  updateDoc,
   addDoc,
   collection,
-  collectionGroup,
-  query,
-  where,
 } from "../Firebase";
 import { getAuth, onAuthStateChanged } from "../Firebase";
 import uniqid from "uniqid";
@@ -29,10 +25,32 @@ interface MapsProps {
 
 const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
   const [uid, setUID] = useState("");
-  const [mapFinished, setMapFinished] = useState(false);
-  const allMaps = ["map1", "map2", "map3"];
 
-  //Load character data
+  //game status, in game/ not in game
+  const inGame = useContext(GameContext);
+  const [mousePos, setMousePos] = useState({
+    x: 0,
+    y: 0,
+    popUpX: 0,
+    popUpY: 0,
+  });
+
+  const [position, setPosition] = useState([
+    {
+      character: "",
+      x: 0,
+      x2: 0,
+      y: 0,
+      y2: 0,
+      found: false,
+      imageLink: "",
+      name: "",
+    },
+  ]);
+  const positionFound = useRef(0);
+  const timer = useRef(0);
+
+  //Load character data and set userID
   async function receiveData(mapNumber: string) {
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
@@ -64,30 +82,6 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
   useEffect(() => {
     receiveData(map);
   }, []);
-
-  //game status, in game/ not in game
-  const inGame = useContext(GameContext);
-  const [mousePos, setMousePos] = useState({
-    x: 0,
-    y: 0,
-    popUpX: 0,
-    popUpY: 0,
-  });
-
-  const [position, setPosition] = useState([
-    {
-      character: "",
-      x: 0,
-      x2: 0,
-      y: 0,
-      y2: 0,
-      found: false,
-      imageLink: "",
-      name: "",
-    },
-  ]);
-  const positionFound = useRef(0);
-  const timer = useRef(0);
 
   //Add Calculated X/Y Coordinates to Div
   useEffect(() => {
@@ -128,13 +122,12 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
         }
       }, 1000);
     }
-    // Clear the interval when the component is unmounted or mapFinished is true
     return () => {
       clearInterval(interval);
     };
   }, [positionFound.current]);
 
-  //Shows pop up character select window
+  //Shows character select Popup window
   const popUpWindow = () => {
     const gamePopUp = document.getElementById("gamePopUp");
     if (gamePopUp === null || positionFound.current === position.length) {
@@ -222,10 +215,12 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
       const scoresSnapshot = await getDocs(scoresRef);
       let scoreExists = false;
 
+      //Create new collection if user doesn't have one
       if (!userDocsSnapshot.exists()) {
         await setDoc(userDocsRef, {}, { merge: true });
       }
 
+      //Updates score if map already exists
       for (const doc of scoresSnapshot.docs) {
         const scoreData = doc.data();
         if (scoreData.map === map) {
@@ -242,6 +237,7 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
         }
       }
 
+      //Add a new document if map doesn't exist
       if (!scoreExists) {
         await addDoc(collection(userDocsRef, "scores"), {
           date: `${month}/${day}/${year}`,
@@ -254,6 +250,7 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
         });
       }
 
+      //Updates game to inactive, and leaves.
       updateGameStatus();
     };
 

@@ -16,7 +16,6 @@ const Nav = () => {
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        const uid = user.uid;
         setUsername(getUserName() || "");
       } else {
         signOutUser();
