@@ -5,7 +5,21 @@ import image2 from "../Images/mytedpt.jpg";
 import image3 from "../Images/zcg3gaz57tc31.webp";
 import { GameContext } from "./App";
 import MagnifyComponent from "./Magnify";
-import { getFirestore, app, doc, setDoc, getDoc } from "../Firebase";
+import {
+  getFirestore,
+  app,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+  addDoc,
+  collection,
+  collectionGroup,
+  query,
+  where,
+} from "../Firebase";
+import { getAuth, onAuthStateChanged } from "../Firebase";
 import uniqid from "uniqid";
 
 interface MapsProps {
@@ -14,8 +28,18 @@ interface MapsProps {
 }
 
 const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
+  const [uid, setUID] = useState("");
+  const allMaps = ["map1", "map2", "map3"];
+
   //Load character data
   async function receiveData(mapNumber: string) {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUID(user.uid);
+      }
+    });
+
     const db = getFirestore(app);
     const dbRef = doc(db, "maps", `${mapNumber}`);
     const dbSnap = await getDoc(dbRef);
@@ -156,7 +180,7 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
   };
 
   const submitScoreWindow = () => {
-    //Removes marks when game is finished
+    //Removes marks and popups when game is finished
     const charMarks = Array.from(
       document.getElementsByClassName(
         "charMark"
@@ -165,7 +189,6 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
     for (const i of charMarks) {
       i.style.display = "none";
     }
-
     const gamePopUp = document.getElementById("gamePopUp");
     if (gamePopUp !== null) {
       gamePopUp.style.display = "none";
@@ -176,15 +199,72 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
 
+    const currentUserData = getAuth().currentUser;
+
+    const submitFunction = async () => {
+      if (!uid) {
+        return;
+      }
+
+      console.log("test");
+
+      const db = getFirestore(app);
+      const userDocsRef = doc(db, "users", uid);
+      const scoresRef = collection(userDocsRef, "scores");
+      const scoresSnapshot = await getDocs(scoresRef);
+
+      let scoreExists = false;
+
+      for (const doc of scoresSnapshot.docs) {
+        const scoreData = doc.data();
+        if (scoreData.map === map) {
+          scoreExists = true;
+          await setDoc(doc.ref, {
+            date: `${month}/${day}/${year}`,
+            map: map,
+            name: currentUserData
+              ? currentUserData.displayName?.split(" ")[0]
+              : "",
+            score: timer.current,
+            uid: uid,
+          });
+        }
+      }
+
+      if (!scoreExists) {
+        await addDoc(collection(userDocsRef, "scores"), {
+          date: `${month}/${day}/${year}`,
+          map: map,
+          name: currentUserData
+            ? currentUserData.displayName?.split(" ")[0]
+            : "",
+          score: timer.current,
+          uid: uid,
+        });
+      }
+    };
+
     return (
       <div id="submitScoreWindow">
         <h1>Congratulations!</h1>
-        <p>Name: Guest</p>
+        <p>
+          Name:{" "}
+          {currentUserData
+            ? currentUserData.displayName?.split(" ")[0]
+            : "Guest"}
+        </p>
         <p>Map: {map}</p>
         <p>
           Score: {timer.current} Date: {month}/{day}/{year}
         </p>
-        <button>Submit Score</button>
+        <button
+          id="submitScoreButton"
+          onClick={() => {
+            submitFunction();
+          }}
+        >
+          Submit Score
+        </button>
       </div>
     );
   };
