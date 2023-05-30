@@ -1,9 +1,4 @@
 node_modules
-empty.tsx
-tsconfig.json
-package.json
-package-lock.json
-.eslintrc.json
 Firebase.js
-uniqid.d.ts
 firestore.rules
+src/Firebaseconfig.js
