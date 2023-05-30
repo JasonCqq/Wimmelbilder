@@ -170,13 +170,3 @@
   font-weight: bold;
   font-size: 1.5;
 }
-
-/* @media screen and (max-height: 375px) {
-  .gameStats {
-    max-height: 10vh;
-  }
-
-  .gameStats span {
-    max-height: 7vh;
-  }
-} */
