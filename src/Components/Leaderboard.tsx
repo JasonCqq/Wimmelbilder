@@ -15,39 +15,44 @@ interface LeaderboardData {
   map: string;
   score: number;
   date: string;
+  uid: string;
 }
 
 const Leaderboard = () => {
-  const [rows, setRows] = useState<JSX.Element[]>([]);
-
-  const displayLeaderboardData = (data: LeaderboardData) => {
-    return (
-      <tr key={uniqid()}>
-        <td>{data.name}</td>
-        <td>{data.date}</td>
-        <td>{data.map}</td>
-        <td>{data.score}</td>
-      </tr>
-    );
-  };
+  const [rows, setRows] = useState<Array<LeaderboardData>>([]);
+  const sortedRows = [...rows].sort((a, b) => a.score - b.score);
 
   useEffect(() => {
     async function getData() {
-      const auth = getAuth();
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          const uid = user.uid;
-        }
-      });
       const db = getFirestore(app);
-      const querySnapshot = await getDocs(collection(db, "users"));
+      const usersCollectionRef = collection(db, "users");
+      const querySnapshot = await getDocs(usersCollectionRef);
 
-      const rowsData = querySnapshot.docs.map((doc) => {
-        const newData = doc.data() as LeaderboardData;
-        return displayLeaderboardData(newData);
-      });
+      const newRows: Array<object> = [];
 
-      setRows(rowsData);
+      // querySnapshot.forEach(async (userDoc) => {
+      //   const scoresCollectionRef = collection(userDoc.ref, "scores");
+      //   const scoresQuerySnapshot = await getDocs(scoresCollectionRef);
+
+      //   scoresQuerySnapshot.forEach((scoreDoc) => {
+      //     const score = scoreDoc.data();
+      //     newRows.push(score);
+      //   });
+      // });
+      // setRows(newRows as LeaderboardData[]);
+      await Promise.all(
+        querySnapshot.docs.map(async (userDoc) => {
+          const scoresCollectionRef = collection(userDoc.ref, "scores");
+          const scoresQuerySnapshot = await getDocs(scoresCollectionRef);
+
+          scoresQuerySnapshot.forEach((scoreDoc) => {
+            const score = scoreDoc.data();
+            newRows.push(score);
+          });
+        })
+      );
+
+      setRows(newRows as LeaderboardData[]);
     }
     getData();
   }, []);
@@ -59,9 +64,9 @@ const Leaderboard = () => {
       <label htmlFor="map">Select Map</label>
       <select name="map" id="mapSelect">
         <option value="all">All</option>
-        <option value="map1">Map #1</option>
+        {/* <option value="map1">Map #1</option>
         <option value="map2">Map #2</option>
-        <option value="map3">Map #3</option>
+        <option value="map3">Map #3</option> */}
       </select>
 
       <table>
@@ -73,7 +78,20 @@ const Leaderboard = () => {
             <th>Score</th>
           </tr>
         </thead>
-        <tbody>{rows}</tbody>
+        <tbody className="leaderboardData">
+          {sortedRows.map((row) => {
+            const uidPrefix = row.uid.slice(0, 2);
+            const modifiedName = row.name + uidPrefix;
+            return (
+              <tr key={uniqid()}>
+                <td>{modifiedName}</td>
+                <td>{row.date}</td>
+                <td>{row.map}</td>
+                <td>{row.score}</td>
+              </tr>
+            );
+          })}
+        </tbody>
       </table>
     </div>
   );

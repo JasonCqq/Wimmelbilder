@@ -29,6 +29,7 @@ interface MapsProps {
 
 const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
   const [uid, setUID] = useState("");
+  const [mapFinished, setMapFinished] = useState(false);
   const allMaps = ["map1", "map2", "map3"];
 
   //Load character data
@@ -117,14 +118,21 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
 
   // Map timer
   useEffect(() => {
-    const interval = setInterval(() => {
-      timer.current = timer.current + 1;
-    }, 1000);
-    // Clear the interval when the component is unmounted
+    const mapTimer = document.getElementById("mapTimer");
+    let interval: NodeJS.Timeout | number;
+    if (positionFound.current !== position.length) {
+      interval = setInterval(() => {
+        timer.current = timer.current + 1;
+        if (mapTimer !== null) {
+          mapTimer.textContent = `Time: ${timer.current}s`;
+        }
+      }, 1000);
+    }
+    // Clear the interval when the component is unmounted or mapFinished is true
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [positionFound.current]);
 
   //Shows pop up character select window
   const popUpWindow = () => {
@@ -206,14 +214,17 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
         return;
       }
 
-      console.log("test");
-
       const db = getFirestore(app);
       const userDocsRef = doc(db, "users", uid);
+      const userDocsSnapshot = await getDoc(userDocsRef);
+
       const scoresRef = collection(userDocsRef, "scores");
       const scoresSnapshot = await getDocs(scoresRef);
-
       let scoreExists = false;
+
+      if (!userDocsSnapshot.exists()) {
+        await setDoc(userDocsRef, {}, { merge: true });
+      }
 
       for (const doc of scoresSnapshot.docs) {
         const scoreData = doc.data();
@@ -242,6 +253,8 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
           uid: uid,
         });
       }
+
+      updateGameStatus();
     };
 
     return (
@@ -257,14 +270,16 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
         <p>
           Score: {timer.current} Date: {month}/{day}/{year}
         </p>
-        <button
-          id="submitScoreButton"
-          onClick={() => {
-            submitFunction();
-          }}
-        >
-          Submit Score
-        </button>
+        {uid && (
+          <button
+            id="submitScoreButton"
+            onClick={() => {
+              submitFunction();
+            }}
+          >
+            Submit Score
+          </button>
+        )}
       </div>
     );
   };
@@ -312,7 +327,7 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
           </div>
           <div className="gameStats">
             <p>
-              <strong>Time: {timer.current}s</strong>
+              <strong id="mapTimer"></strong>
             </p>
 
             <span className="characterSpan">
