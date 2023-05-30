@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.6cb7cc97.css",
+    "main.js": "/static/js/main.a19393f5.js",
+    "static/media/mytedpt.jpg": "/static/media/mytedpt.369955c77d95a2d2457e.jpg",
+    "static/media/zcg3gaz57tc31.webp": "/static/media/zcg3gaz57tc31.d2a479ad7bb5b8307e36.webp",
+    "static/media/h4cxlfdfgiz81.webp": "/static/media/h4cxlfdfgiz81.a5bd0faf072ea8971ab6.webp",
+    "index.html": "/index.html",
+    "main.6cb7cc97.css.map": "/static/css/main.6cb7cc97.css.map",
+    "main.a19393f5.js.map": "/static/js/main.a19393f5.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6cb7cc97.css",
+    "static/js/main.a19393f5.js"
+  ]
+}
