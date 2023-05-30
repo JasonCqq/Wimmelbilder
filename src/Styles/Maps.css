@@ -138,6 +138,39 @@
   bottom: 0;
   left: 0;
 }
+.charMark1,
+.charMark2,
+.charMark3 {
+  height: 50px;
+  width: 50px;
+  border: 5px solid #0035fd;
+  border-radius: 25px;
+  box-shadow: 2px 2px 10px #0035fd;
+  position: absolute;
+  display: none;
+  z-index: 99;
+}
+
+.characterSpan {
+  width: 15vw;
+}
+
+.characterSpan h5 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.characterSpan h6 {
+  margin: 0;
+  font-size: 0.75rem;
+}
+
+.characterSpan .green {
+  color: lightgreen;
+  font-weight: bold;
+  font-size: 1.5;
+}
+
 /* @media screen and (max-height: 375px) {
   .gameStats {
     max-height: 10vh;

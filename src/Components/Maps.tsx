@@ -5,6 +5,8 @@ import image2 from "../Images/mytedpt.jpg";
 import image3 from "../Images/zcg3gaz57tc31.webp";
 import { GameContext } from "./App";
 import MagnifyComponent from "./Magnify";
+import { getFirestore, app, doc, setDoc, getDoc } from "../Firebase";
+import uniqid from "uniqid";
 
 interface MapsProps {
   map: string;
@@ -12,6 +14,32 @@ interface MapsProps {
 }
 
 const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
+  //Load character data
+  async function receiveData(mapNumber: string) {
+    const db = getFirestore(app);
+    const dbRef = doc(db, "maps", `${mapNumber}`);
+    const dbSnap = await getDoc(dbRef);
+    if (dbSnap.exists()) {
+      const data = dbSnap.data();
+      const newData = Object.values(data).map((item: any) => ({
+        character: item.character,
+        x: item.x,
+        x2: item.x2,
+        y: item.y,
+        y2: item.y2,
+        found: item.found,
+        imageLink: item.imageLink,
+        name: item.name,
+      }));
+      setPosition(newData);
+    } else {
+      console.log("ERROR");
+    }
+  }
+  useEffect(() => {
+    receiveData(map);
+  }, []);
+
   //game status, in game/ not in game
   const inGame = useContext(GameContext);
   const [mousePos, setMousePos] = useState({
@@ -22,41 +50,24 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
   });
 
   const [position, setPosition] = useState([
-    //Spiderman
     {
-      character: "Character1",
-      x: 297,
-      x2: 350,
-      y: 613,
-      y2: 706,
+      character: "",
+      x: 0,
+      x2: 0,
+      y: 0,
+      y2: 0,
       found: false,
-    },
-    //Mario
-    {
-      character: "Character2",
-      x: 53,
-      x2: 99,
-      y: 463,
-      y2: 540,
-      found: false,
-    },
-    //Yoshi
-    {
-      character: "Character3",
-      x: 155,
-      x2: 200,
-      y: 121,
-      y2: 187,
-      found: false,
+      imageLink: "",
+      name: "",
     },
   ]);
   const positionFound = useRef(0);
   const timer = useRef(0);
 
-  //Add X/Y Coordinates to Div
+  //Add Calculated X/Y Coordinates to Div
   useEffect(() => {
     const gameDiv = document.querySelector(".magnifier");
-    //Screen Width / clientX
+    //Screen Width / clientX | Screen Height / clientY
     const mouseMove = (event: any) => {
       if (gameDiv && gameDiv.contains(event.target)) {
         setMousePos({
@@ -85,17 +96,16 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
     const interval = setInterval(() => {
       timer.current = timer.current + 1;
     }, 1000);
-
-    // Cleanup the interval when the component is unmounted
+    // Clear the interval when the component is unmounted
     return () => {
       clearInterval(interval);
     };
   }, []);
 
-  //Shows popUp window
+  //Shows pop up character select window
   const popUpWindow = () => {
     const gamePopUp = document.getElementById("gamePopUp");
-    if (gamePopUp === null) {
+    if (gamePopUp === null || positionFound.current === position.length) {
       return;
     }
     if (gamePopUp?.style.display === "block") {
@@ -109,44 +119,58 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
     }
   };
 
+  //Check if correct character clicked on correct coords.
   const popUpCharacterSelect = (e: any) => {
     const character = e.currentTarget.innerText.split(" ").join("");
-    const gameStatsDiv = document.querySelector(".gameStats");
-
     //match characters
     for (const key of position) {
       if (key.character !== character) {
         continue;
       }
       if (
-        mousePos.x > key.x &&
-        mousePos.x < key.x2 &&
-        mousePos.y > key.y &&
-        mousePos.y < key.y2
+        mousePos.x >= key.x &&
+        mousePos.x <= key.x2 &&
+        mousePos.y >= key.y &&
+        mousePos.y <= key.y2
       ) {
-        //Finds the correct div, and sets to found
-        const characterDiv = gameStatsDiv?.querySelector(
-          `.${key.character}`
-        ) as HTMLElement;
-        if (characterDiv !== undefined && characterDiv !== null) {
-          characterDiv.textContent = "✓";
-          characterDiv.style.color = "green";
-        }
-
-        positionFound.current = positionFound.current + 1;
+        //Update found state
         setPosition((prevPosition) =>
           prevPosition.map((pos) => {
-            if (pos.character === key.character) {
+            if (pos.character === key.character && pos.found !== true) {
+              positionFound.current = positionFound.current + 1;
               return { ...pos, found: true };
             }
             return pos;
           })
         );
+
+        //Add marks when found on screen.
+        const charMark = document.querySelector(
+          `.charMark${positionFound.current}`
+        ) as HTMLElement;
+        charMark.style.top = `${mousePos.popUpY - 25}px`;
+        charMark.style.left = `${mousePos.popUpX - 25}px`;
+        charMark.style.display = "block";
       }
     }
   };
 
   const submitScoreWindow = () => {
+    //Removes marks when game is finished
+    const charMarks = Array.from(
+      document.getElementsByClassName(
+        "charMark"
+      ) as HTMLCollectionOf<HTMLElement>
+    );
+    for (const i of charMarks) {
+      i.style.display = "none";
+    }
+
+    const gamePopUp = document.getElementById("gamePopUp");
+    if (gamePopUp !== null) {
+      gamePopUp.style.display = "none";
+    }
+
     const date = new Date();
     const day = date.getDate();
     const month = date.getMonth() + 1;
@@ -175,11 +199,16 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
               popUpWindow();
             }}
           >
+            <div className="charMark1 charMark"></div>
+            <div className="charMark2 charMark"></div>
+            <div className="charMark3 charMark"></div>
+
             {positionFound.current === position.length ? (
               submitScoreWindow()
             ) : (
               <MagnifyComponent map={imgLink} />
             )}
+
             <div id="gamePopUp">
               <p
                 onClick={(e) => popUpCharacterSelect(e)}
@@ -205,22 +234,19 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
             <p>
               <strong>Time: {timer.current}s</strong>
             </p>
-            <span>
-              <div>
-                <h5>Character 1</h5>
-                <img src={image1}></img>
-                <p className="Character1">❌</p>
-              </div>
-              <div>
-                <h5>Character 2</h5>
-                <img src={image1}></img>
-                <p className="Character2">❌</p>
-              </div>
-              <div>
-                <h5>Character 3</h5>
-                <img src={image1}></img>
-                <p className="Character3">❌</p>
-              </div>
+
+            <span className="characterSpan">
+              {position.map((pos) => {
+                return (
+                  <div key={uniqid()}>
+                    <h5>{pos.name}</h5>
+                    <img src={pos.imageLink}></img>
+                    <p className={pos.character + (pos.found ? " green" : "")}>
+                      {pos.found === false ? "❌" : "✓"}
+                    </p>
+                  </div>
+                );
+              })}
             </span>
             <button
               onClick={() => {
@@ -239,17 +265,13 @@ const Maps: React.FC<MapsProps> = ({ map, updateGameStatus }) => {
   };
 
   if (map === "map1" && inGame) {
-    // setImage({ ...image, name: "map1" });
     return displayMap(image1);
   } else if (map === "map2" && inGame) {
-    // setImage({ ...image, name: "map2" });
     return displayMap(image2);
   } else if (map === "map3" && inGame) {
-    // setImage({ ...image, name: "map3" });
     return displayMap(image3);
   } else {
     return null;
   }
 };
-
 export default Maps;

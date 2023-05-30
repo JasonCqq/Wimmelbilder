@@ -7,15 +7,12 @@ import image3 from "../Images/zcg3gaz57tc31.webp";
 import Maps from "./Maps";
 
 //Things to Implement:
-
 // Random images
 // Store image coordinates on firebase and validate when user selects.
-// Mark the found characters on the image
 
 // Submit scores, Guest if no log in
 // Store userdata with score and display on leaderboard
 
-// Comment better code
 // Mobile Responsiveness
 
 const GameContext = createContext<boolean>(false);
@@ -28,7 +25,7 @@ const App = () => {
     setInGame(false);
   };
 
-  //change game to active and disable scrolling
+  //change game status to active and disable scrolling
   useEffect(() => {
     setInGame(true);
     inGame === true
@@ -43,7 +40,7 @@ const App = () => {
           <h1>WimmelBilder Game</h1>
           <span>
             <h5 className="features">
-              Mobile Responsive (Not Yet) • Leaderboard • Authentication
+              Mobile Responsive (Soon) • Leaderboard • Authentication
             </h5>
             <h5>Find the characters in each image as fast as possible!</h5>
             <h5>
@@ -65,7 +62,7 @@ const App = () => {
                 Map #1 - Artist
               </a>
               <span>
-                <p>Difficulty: ★★★★</p>
+                <p>Difficulty: ★★★</p>
                 <button onClick={() => setCurrentMap("map1")}>Play</button>
               </span>
             </div>
@@ -80,7 +77,7 @@ const App = () => {
                 Map #2 - Artist
               </a>
               <span>
-                <p>Difficulty: ★★</p>
+                <p>Difficulty: ★★★★</p>
                 <button onClick={() => setCurrentMap("map2")}>Play</button>
               </span>
             </div>

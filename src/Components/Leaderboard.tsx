@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "../Styles/Leaderboard.css";
-import { getFirestore, collection, addDoc, app } from "../Firebase";
+// import { getFirestore, collection, addDoc, app } from "../Firebase";
 
 const Leaderboard = () => {
   //   const db = getFirestore(app);
@@ -25,7 +25,7 @@ const Leaderboard = () => {
     <div className="leaderboard">
       <h3>Leaderboard</h3>
 
-      <label htmlFor="map">Select Map Leaderboard</label>
+      <label htmlFor="map">Select Map</label>
       <select name="map" id="mapSelect">
         <option value="map1">Map #1</option>
         <option value="map2">Map #2</option>
