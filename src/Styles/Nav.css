@@ -28,13 +28,15 @@ ul {
   justify-content: center;
   background: #0a0f1a;
   z-index: 99;
-  border-top: 2px solid #5959fc;
+  border-top: 4px solid #5959fc;
   font-weight: 500;
+  padding-bottom: 5px;
 }
 
 ul a {
   color: #a5a5f7;
   font-weight: bold;
+  font-size: 2rem;
 }
 
 ul a:hover {
@@ -71,13 +73,14 @@ ul .leftMenu {
 }
 
 .signOutButton {
-  font-size: 0.8rem;
-  color: #9600e1;
+  font-size: 1.3rem;
+  color: #a5a5f7;
 }
 
 .signOutButton:hover {
   cursor: pointer;
   font-weight: bold;
+  color: #a5a5f7a4;
 }
 
 #navLogo {

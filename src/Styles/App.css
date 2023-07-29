@@ -1,5 +1,6 @@
 h5 {
   color: white;
+  letter-spacing: 1px;
 }
 
 #header {
@@ -62,9 +63,10 @@ h5 {
 #maps a {
   text-transform: uppercase;
   font-weight: bold;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   color: white;
-  text-shadow: 2px 2px 5px white;
+  text-decoration: underline;
+  padding-top: 10px;
 }
 
 .grid-container {
@@ -82,16 +84,17 @@ h5 {
   flex-direction: column;
   background-color: rgba(255, 255, 255, 0);
   height: 45vh;
-  border-top: 4px solid #ff7300;
+  border-top: 4px solid #5959fc;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   text-align: center;
 }
 
 .map p {
-  font-size: 1.1rem;
+  font-size: 1.4rem;
   margin: 0;
   margin-left: 1vh;
+  padding-bottom: 10px;
 }
 
 .map button {
@@ -101,12 +104,12 @@ h5 {
   padding: 0;
   margin-left: 1vh;
   line-height: 0;
-  background-color: #460bf9;
+  background-color: #5959fc;
   border: none;
 }
 
 .map button:hover {
-  box-shadow: 1px 1px 10px #460bf9;
+  box-shadow: 1px 1px 10px #5959fccb;
 }
 
 .map a {

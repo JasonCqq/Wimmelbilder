@@ -9,7 +9,7 @@ export default function MagnifyComponent(map: prop) {
     <Magnifier
       src={map.map}
       mgShape="square"
-      zoomFactor={3}
+      zoomFactor={2}
       mgWidth={75}
       mgHeight={75}
       mgTouchOffsetX={0}

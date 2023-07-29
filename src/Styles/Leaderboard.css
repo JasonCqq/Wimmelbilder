@@ -15,7 +15,7 @@ h3 {
   margin-top: 2vh;
   font-weight: bold;
   -webkit-text-fill-color: transparent;
-  background-image: linear-gradient(90deg, #0035fd 20%, #eb00a1);
+  background-image: linear-gradient(90deg, #0035fd 20%, #eb00eb);
   -webkit-background-clip: text;
   border-bottom: 2px solid #0035fd;
 }
@@ -36,17 +36,18 @@ option {
 
 table {
   width: 55%;
+  font-weight: bold;
 }
 
 tbody.leaderboardData > tr:nth-of-type(-n + 3) > td {
   color: #eb00a1;
-  text-shadow: 5px 5px 10px #eb00a1;
+  text-shadow: 1px 1px 5px #eb00a1;
   font-weight: bold;
 }
 
 tbody.leaderboardData > tr:nth-of-type(-n + 2) > td {
   color: #ff7300;
-  text-shadow: 5px 5px 10px #ff7300;
+  text-shadow: 1px 1px 5px #ff7300;
   font-weight: bold;
 }
 
@@ -54,6 +55,6 @@ tbody.leaderboardData > tr:nth-of-type(-n + 1) > td {
   -webkit-text-fill-color: transparent;
   background-image: linear-gradient(90deg, #0035fd 20%, #eb00a1);
   -webkit-background-clip: text;
-  text-shadow: 5px 5px 10px #0035fd;
+  text-shadow: 1px 1px 5px #0035fd;
   font-weight: bold;
 }

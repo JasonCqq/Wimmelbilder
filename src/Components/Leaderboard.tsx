@@ -63,9 +63,6 @@ const Leaderboard = () => {
       <label htmlFor="map">Select Map</label>
       <select name="map" id="mapSelect">
         <option value="all">All</option>
-        {/* <option value="map1">Map #1</option>
-        <option value="map2">Map #2</option>
-        <option value="map3">Map #3</option> */}
       </select>
 
       <table>
@@ -91,7 +88,7 @@ const Leaderboard = () => {
                 <td>{modifiedName}</td>
                 <td>{row.date}</td>
                 <td>{row.map}</td>
-                <td>{row.score}</td>
+                <td>{row.score}s</td>
               </tr>
             );
           })}

@@ -43,6 +43,10 @@ const App = () => {
 
         <div id="maps">
           <h4>Current Maps</h4>
+          <p style={{ textAlign: "center" }}>
+            * Please reach me through github to take down images or upload an
+            image{" "}
+          </p>
           <div className="grid-container">
             <div className="map">
               <img src={image1}></img>
@@ -58,7 +62,6 @@ const App = () => {
                 <button onClick={() => setCurrentMap("map1")}>Play</button>
               </span>
             </div>
-
             <div className="map">
               <img src={image2}></img>
               <a
@@ -73,7 +76,6 @@ const App = () => {
                 <button onClick={() => setCurrentMap("map2")}>Play</button>
               </span>
             </div>
-
             <div className="map">
               <img src={image3}></img>
               <a
@@ -96,6 +98,9 @@ const App = () => {
             <Maps map={currentMap} updateGameStatus={backButtonFunction} />
           )}
         </div>
+        <p style={{ textAlign: "center" }}>
+          (More characters to be added soon!)
+        </p>
 
         <footer>
           <p>
